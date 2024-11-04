@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <math.h>
 #include <locale.h>
-/*
+
 int getLista(){
     printf("rr");
 }
@@ -24,7 +24,7 @@ int getDesvio() {
 
 int getMediana() {
     
-} */
+}
 
 int main() {
     setlocale(LC_ALL, "pt_PT.UTF-8");
