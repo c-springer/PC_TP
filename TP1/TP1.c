@@ -36,7 +36,7 @@ int main() {
         scanf("%d", &i); //# para o case
         switch(i){
             case 1:
-                getList(); 
+                getLista(); 
                 break;
             case 2:
                 returnLista(); 
