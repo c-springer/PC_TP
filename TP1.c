@@ -3,7 +3,24 @@
 #include <locale.h>
 
 int getLista(){
-    printf("rr");
+    int arraySize;
+    do{
+        printf("Insira a quantidade de valores: ");
+        scanf("%d", arraySize);
+
+        if (arraySize > 100) {
+                printf("Numero demasiado grande\n\n");
+
+        }
+
+        else if (arraySize < 0) {
+            printf("Numero demasiado grande\n\n");
+
+        }
+
+    } while (arraySize > 100 || arraySize < 0);
+
+    int myLista [arraySize];
 }
 
 int returnLista() {
