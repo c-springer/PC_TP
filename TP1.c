@@ -3,24 +3,28 @@
 #include <locale.h>
 
 int getLista(){
+    int myLista[100]; //array
     int arraySize;
+    int i;
+
     do{
         printf("Insira a quantidade de valores: ");
-        scanf("%d", arraySize);
+        scanf("%d", &arraySize);
 
-        if (arraySize > 100) {
+        if (arraySize>100) {
                 printf("Numero demasiado grande\n\n");
-
         }
 
-        else if (arraySize < 0) {
-            printf("Numero demasiado grande\n\n");
-
+        else if (arraySize<1) {
+            printf("Numero demasiado pequeno\n\n");
         }
 
-    } while (arraySize > 100 || arraySize < 0);
-
-    int myLista [arraySize];
+    } while (arraySize>100 || arraySize<1);
+    
+    printf("Insira os valores:\n");
+    for(i=0; i < arraySize; i++) {
+        scanf("%d", &myLista[i]);
+    }
 }
 
 int returnLista() {
@@ -54,22 +58,28 @@ int main() {
         switch(i){
             case 1:
                 getLista(); 
+                printf("\n");
                 break;
             case 2:
                 returnLista(); 
+                printf("\n");
                 break;
             case 3:
                 changeLista();
+                printf("\n");
                 break;
             case 4:
                 getMedia();
-                break;        
+                printf("\n");
+                break;
             case 5:
                 getDesvio();
-                break;        
+                printf("\n");
+                break;
             case 6:
                 getMediana();
-                break;        
+                printf("\n");
+                break;
             case 7:
                 break;
             default:
