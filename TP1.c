@@ -87,5 +87,5 @@ int main() {
                 break;
         }
    } while(i!=7);
-    return 0;
+    printf("FIM DO PROGRAMA!!");
 }
