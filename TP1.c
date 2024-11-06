@@ -2,7 +2,6 @@
 #include <math.h>
 #include <locale.h>
 
-/*
 int getLista(float array[1000], int* ptr_arraySize){
     int i;
 
@@ -26,7 +25,6 @@ int getLista(float array[1000], int* ptr_arraySize){
     }
     return(array, *ptr_arraySize);
 }
-*/
 
 int returnLista(float array[1000], int *ptr_arraySize /*tamanho da array*/) {
     int i; //posição na array
@@ -70,14 +68,12 @@ int main() {
     setlocale(LC_NUMERIC, "c");
 
     int i; // # para o case
-    /*
+
     float myLista[1000]; //array
     int arraySize;
-    int *ptr_arraySize = &arraySize;
-    */
 
-    float myLista[21] = {1, 2, 3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21};
-    int arraySize = 21;
+    //float myLista[21] = {1, 2, 3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21};
+    //int arraySize = 21;
     int *ptr_arraySize = &arraySize;
     ptr_arraySize = &arraySize;
 
@@ -87,7 +83,7 @@ int main() {
         scanf("%d", &i); //# para o case
         switch(i){
             case 1:
-                //getLista(myLista, ptr_arraySize); ////////////////////////////////
+                getLista(myLista, ptr_arraySize); ////////////////////////////////
                 printf("\n");
                 break;
             case 2:
