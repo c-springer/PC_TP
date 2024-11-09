@@ -47,7 +47,26 @@ int returnLista(float array[1000], int *ptr_arraySize /*tamanho da array*/) {
     
 } 
 
-int changeLista() {
+int changeLista(int i, int novoValor, int arraySize, float array[]) 
+{
+     printf("Qual é a posição do número que quer alterar?");
+     scanf("%f",& i);
+    
+    if (i<0 ||i>arraySize) printf("Posição inválida");
+    else {
+        printf(" O valor que pretende altearar é:%f" ,&array[i]);
+        printf("Qual é o novo valor??");
+        scanf("%f",& novoValor );
+        array[i] = novoValor;
+        printf(" O valor foi alterado para:%f" ,& novoValor);
+        
+    }
+    return 0;
+}   
+
+
+
+
     
 } 
 
