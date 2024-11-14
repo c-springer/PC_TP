@@ -28,21 +28,26 @@ int getLista(float array[1000], int* ptr_arraySize){
 
 int returnLista(float array[1000], int *ptr_arraySize) {
     int i; //posição na array
-    int n=1; //contador para fazer print da array
+    int n=0; //contador para fazer print da array
     char r; //resposta do utilizador
 
-    for(i=0; i<=*ptr_arraySize; i++){ ///////////rever
+    for(i=0; i<=(*ptr_arraySize-1); i++){
         printf("%f\n", array[i]);
         if(n<20) n++;
 
-        else if(n==20){
-            printf("Quer continuar? Y ou N\n");
+        if(n==20){ ///voltar a mudar para 20
+            printf("Quer continuar? y ou n\n");
+            scanf("%*c");
+            
             scanf("%c", &r);
-
-            if(r == 'Y'){
+            printf("%c", r);
+            
+            if(r=='y'){
                 n=0;
             }
-            else if(r =='N') break;
+
+            else if(r=='n') break;
+            else printf("Resposta invalida\n");
         }
     }
 
