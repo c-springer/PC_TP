@@ -1,52 +1,59 @@
-#include <stdio.h>
-#include <math.h>
 #include <locale.h>
+#include <math.h>
+#include <stdio.h>
 
-int getLista(float array[1000], int* ptr_arraySize){
+int getLista(float array[1000], int *ptr_arraySize){
     int i;
 
-    do{
+    do
+    {
         printf("Insira a quantidade de valores: ");
         scanf("%d", &*ptr_arraySize);
 
-        if ((*ptr_arraySize)>1000) {
+        if ((*ptr_arraySize)>1000)
+        {
             printf("Numero demasiado grande\n\n");
         }
 
-        else if ((*ptr_arraySize)<1) {
+        else if ((*ptr_arraySize)<1)
+        {
             printf("Numero demasiado pequeno\n\n");
         }
-
-    } while ((*ptr_arraySize)>1000 || (*ptr_arraySize)<1);
+    } while ((*ptr_arraySize) > 1000 || (*ptr_arraySize) < 1);
     
     printf("Insira os valores:\n");
-    for(i=0; i < (*ptr_arraySize); i++) {
+    for (i = 0; i < (*ptr_arraySize); i++)
+    {
         scanf("%f", &array[i]);
     }
-    return(array, *ptr_arraySize);
+    return (array, *ptr_arraySize);
 }
 
-int returnLista(float array[1000], int *ptr_arraySize) {
-    int i; //posição na array
-    int n=0; //contador para fazer print da array
-    char r; //resposta do utilizador
+int returnLista(float array[1000], int *ptr_arraySize)
+{
+    int i;     // posição na array
+    int n = 0; // contador para fazer print da array
+    char r;    // resposta do utilizador
 
-    for(i=0; i<=(*ptr_arraySize-1); i++){
+    for (i = 0; i <= ((*ptr_arraySize) - 1); i++)
+    {
         printf("%f\n", array[i]);
-        if(n<20) n++;
+        if (n < 20) n++;
 
-        if(n==20){ ///voltar a mudar para 20
+        if (n == 20) // voltar a mudar para 20
+        {
             printf("Quer continuar? y ou n\n");
             scanf("%*c");
             
             scanf("%c", &r);
             printf("%c", r);
             
-            if(r=='y'){
-                n=0;
+            if(r == 'y')
+            {
+                n = 0;
             }
 
-            else if(r=='n') break;
+            else if (r == 'n') break;
             else printf("Resposta invalida\n");
         }
     }
@@ -54,59 +61,71 @@ int returnLista(float array[1000], int *ptr_arraySize) {
     return 0;
 } 
 
-int changeLista(float array[1000], int *ptr_arraySize){
+int changeLista(float array[1000], int *ptr_arraySize)
+{
     int i;
     int novoValor;
 
     printf("Qual é a posição do número que quer alterar?");
     scanf("%d", &i);
     
-    if (i<0 || i>*ptr_arraySize) printf("Posição inválida\n");
-    else{
+    if (i < 0 || i > (*ptr_arraySize)) printf("Posição inválida\n");
+    else
+    {
         printf("O valor que quer mudar é: %f\n", array[i]);
 
         printf("Qual é o novo valor?\n");
         scanf("%d", &novoValor);
 
-        array[i]=novoValor;
+        array[i] = novoValor;
 
         printf("O valor foi alterado para: %d", novoValor);
     }
     return 0;
 }
 
-int getMedia() {
-    
-} 
-
-int getDesvio() {
-    
-} 
-
-int getMediana() {
+int getMedia()
+{
     
 }
 
-int main() {
+int getDesvio()
+{
+    
+}
+
+int getMediana()
+{
+    
+}
+
+int main()
+{
     setlocale(LC_ALL, "pt_PT.UTF-8");
     setlocale(LC_NUMERIC, "c");
 
     int i; // # para o case
 
-    float myLista[1000]; //array
+    float myLista[1000]; // array
     int arraySize;
 
-    //float myLista[21] = {1, 2, 3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21};
-    //int arraySize = 21;
     int *ptr_arraySize = &arraySize;
     ptr_arraySize = &arraySize;
+    int media;
+    int desvio;
 
+    /*
+    float myLista[21] = {1, 2, 3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21};
+    int arraySize = 21;
+    */
 
-    do {
+    do
+    {
         printf("1 – Inserir valores\n2 – Listar valores inseridos\n3 – Alterar um valor inserido\n4 – Calcular o valor médio\n5 – Calcular o desvio-padrão\n6 – Calcular a mediana\n7 – Sair/Terminar\n\nEscolha uma das opções: "); //promt pro utilizador
         scanf("%d", &i); //# para o case
         
-        switch(i){
+        switch (i)
+        {
             case 1:
                 getLista(myLista, ptr_arraySize);
                 printf("\n");
@@ -144,7 +163,7 @@ int main() {
                 printf("Opção inválida. Tente novamente.\n");
                 break;
         }
-   } while(i!=7);
+   } while(i != 7);
    
     printf("FIM DO PROGRAMA!!");
 }
