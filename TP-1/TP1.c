@@ -75,9 +75,25 @@ int changeLista(float array[1000], int *ptr_arraySize){
     return 0;
 }
 
-int getMedia() {
+float getMedia(float array[], int tamanhoArray)
+
+{
+    float soma, media;
+    int i;
     
-} 
+    for(i =0; i<tamanhoArray; i++)
+    {
+        soma = soma + array[i];
+    }
+     
+    media = (float) soma/tamanhoArray;
+
+    printf("A média dos %d elementos desta Array é: %f", tamanhoArray, media);
+
+    return media;
+}
+
+
 
 int getDesvio() {
     
