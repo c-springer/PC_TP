@@ -10,12 +10,12 @@ int getLista(float array[1000], int *ptr_arraySize){
         printf("Insira a quantidade de valores: ");
         scanf("%d", &*ptr_arraySize);
 
-        if ((*ptr_arraySize)>1000)
+        if ((*ptr_arraySize) > 1000)
         {
             printf("Numero demasiado grande\n\n");
         }
 
-        else if ((*ptr_arraySize)<1)
+        else if ((*ptr_arraySize) < 1)
         {
             printf("Numero demasiado pequeno\n\n");
         }
@@ -35,29 +35,29 @@ int returnLista(float array[1000], int *ptr_arraySize)
     int n = 0; // contador para fazer print da array
     char r;    // resposta do utilizador
 
-    for (i = 0; i <= ((*ptr_arraySize) - 1); i++)
+    for (i = 0; i < (*ptr_arraySize); i++)
     {
-        printf("%f\n", array[i]);
-        if (n < 20) n++;
+        printf("%.2f\n", array[i]);
+        if (n < 5) n++;   ///////////////////////////////////////////////////
 
-        if (n == 20) // voltar a mudar para 20
+        if (n == 5) // voltar a mudar para 20//////////////////////////////////
         {
+            printf("\n");
             printf("Quer continuar? y ou n\n");
             scanf("%*c");
             
             scanf("%c", &r);
-            printf("%c", r);
+            printf("\n");
             
-            if(r == 'y')
+            if (r == 'y')
             {
                 n = 0;
             }
 
             else if (r == 'n') break;
-            else printf("Resposta invalida\n");
+            else printf("Resposta invalida\n\n");
         }
     }
-
     return 0;
 } 
 
@@ -66,47 +66,62 @@ int changeLista(float array[1000], int *ptr_arraySize)
     int i;
     int novoValor;
 
-    printf("Qual é a posição do número que quer alterar?");
+    // printf("\n\n");
+    printf("Qual é a posição do número que quer alterar? ");
     scanf("%d", &i);
     
-    if (i < 0 || i > (*ptr_arraySize)) printf("Posição inválida\n");
+    if (i < 0 || i > (*ptr_arraySize)) printf("Posição inválida\n\n");
     else
     {
-        printf("O valor que quer mudar é: %f\n", array[i]);
+        printf("O valor que quer mudar é: %.2f\n", array[i]);
+        printf("\n");
 
-        printf("Qual é o novo valor?\n");
+        printf("Qual é o novo valor? ");
         scanf("%d", &novoValor);
 
         array[i] = novoValor;
 
-        printf("O valor foi alterado para: %d", novoValor);
+        printf("O valor foi alterado para: %d\n", novoValor);
     }
     return 0;
 }
 
-float getMedia(float array[], int tamanhoArray)
-
+float getMedia(float array[1000], int *ptr_arraySize, float media)
 {
-    float soma, media;
+    // media = 0;
+    float soma = 0;
     int i;
     
-    for(i =0; i<tamanhoArray; i++)
+    for (i = 0; i < (*ptr_arraySize); i++)
     {
         soma = soma + array[i];
     }
-     
-    media = (float) soma/tamanhoArray;
 
-    printf("A média dos %d elementos desta Array é: %f", tamanhoArray, media);
+    media = (float) soma / (*ptr_arraySize);
+    printf("A média dos %d elementos desta Array é: %.2f\n", *ptr_arraySize, media);
 
     return media;
 }
 
-
-
-int getDesvio()
+int getDesvio(float array[1000], int *ptr_arraySize, float media)   // array[i] -> x_i  ;  *ptr_arraySize -> N
 {
-    
+    int i; // posicao na array
+    float somatorio = 0;
+    float desvio;
+
+    if (media == 0)
+    {
+        getMedia(array, ptr_arraySize, media);
+    }
+
+    for (i = 0; i < (*ptr_arraySize); i++)
+    {
+        somatorio += ((double) (array[i] - media, 2));
+    }
+    desvio = sqrt(somatorio / (*ptr_arraySize));
+    printf("O desvio-padrão é: %.4f", desvio);
+
+    return desvio;
 }
 
 int getMediana()
@@ -126,8 +141,8 @@ int main()
 
     int *ptr_arraySize = &arraySize;
     ptr_arraySize = &arraySize;
-    int media;
-    int desvio;
+    float media;
+    float desvio;
 
     /*
     float myLista[21] = {1, 2, 3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21};
@@ -136,49 +151,49 @@ int main()
 
     do
     {
-        printf("1 – Inserir valores\n2 – Listar valores inseridos\n3 – Alterar um valor inserido\n4 – Calcular o valor médio\n5 – Calcular o desvio-padrão\n6 – Calcular a mediana\n7 – Sair/Terminar\n\nEscolha uma das opções: "); //promt pro utilizador
-        scanf("%d", &i); //# para o case
+        printf("1 – Inserir valores\n2 – Listar valores inseridos\n3 – Alterar um valor inserido\n4 – Calcular o valor médio\n5 – Calcular o desvio-padrão\n6 – Calcular a mediana\n7 – Sair/Terminar\n\nEscolha uma das opções: "); // promt pro utilizador
+        scanf("%d", &i); // # para o case
         
         switch (i)
         {
             case 1:
                 getLista(myLista, ptr_arraySize);
-                printf("\n");
+                printf("\n\n");
                 break;
 
             case 2:
                 returnLista(myLista, ptr_arraySize); 
-                printf("\n");
+                printf("\n\n");
                 break;
 
             case 3:
                 changeLista(myLista, ptr_arraySize);
-                printf("\n");
+                printf("\n\n");
                 break;
 
             case 4:
-                getMedia();
-                printf("\n");
+                getMedia(myLista, ptr_arraySize, media);
+                printf("\n\n");
                 break;
 
             case 5:
-                getDesvio();
-                printf("\n");
+                getDesvio(myLista, ptr_arraySize, media);
+                printf("\n\n");
                 break;
 
             case 6:
                 getMediana();
-                printf("\n");
+                printf("\n\n");
                 break;
 
             case 7:
                 break;
 
             default:
-                printf("Opção inválida. Tente novamente.\n");
+                printf("Opção inválida. Tente novamente.\n\n");
                 break;
         }
-   } while(i != 7);
+   } while (i != 7);
    
     printf("FIM DO PROGRAMA!!");
 }
