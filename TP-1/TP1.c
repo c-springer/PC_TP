@@ -112,6 +112,7 @@ int getDesvio(float array[1000], int *ptr_arraySize, float media)   // array[i] 
     if (media == 0)
     {
         getMedia(array, ptr_arraySize, media);
+        printf("\n");
     }
 
     for (i = 0; i < (*ptr_arraySize); i++)
@@ -119,14 +120,44 @@ int getDesvio(float array[1000], int *ptr_arraySize, float media)   // array[i] 
         somatorio += ((double) (array[i] - media, 2));
     }
     desvio = sqrt(somatorio / (*ptr_arraySize));
-    printf("O desvio-padrão é: %.4f", desvio);
+    printf("O desvio-padrão é: %.4f\n", desvio);
 
     return desvio;
 }
 
-int getMediana()
+int getMediana(float array[1000], int *ptr_arraySize)
 {
+    int i;
+    int j;
+    float mediana;
+    int temp;
+
+    for (j = 0; j < (*ptr_arraySize); j++)
+    {
+        for (i = 0; i < ((*ptr_arraySize) - i); i++)
+        {
+            if (array[i] > array[i + 1])
+            {
+                temp =  array[i];
+                array[i] = array[i + 1];
+                array[i + 1] = temp;
+            }
+        }
+    }
+
+    if (((*ptr_arraySize) % 2) == 0) // se arraySize par
+    {
+        mediana = ((float)array[(*ptr_arraySize) / 2] + (float)array[((*ptr_arraySize) / 2) + 1])/ 2.0; // arra[i] + arr[i+1]) / 2
+    }
+
+    if (((*ptr_arraySize) % 2) != 0)
+    {
+        mediana = (float)array[(*ptr_arraySize) / 2];
+    }
     
+    printf("A mediana é: %.2f\n", mediana);
+
+    return 0;
 }
 
 int main()
@@ -141,6 +172,7 @@ int main()
 
     int *ptr_arraySize = &arraySize;
     ptr_arraySize = &arraySize;
+
     float media;
     float desvio;
 
@@ -182,7 +214,7 @@ int main()
                 break;
 
             case 6:
-                getMediana();
+                getMediana(myLista, ptr_arraySize);
                 printf("\n\n");
                 break;
 
