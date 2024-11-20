@@ -130,29 +130,31 @@ int getMediana(float array[1000], int *ptr_arraySize)
     int i;
     int j;
     float mediana;
-    int temp;
+    int temp, ntrocas;
 
-    for (j = 0; j < (*ptr_arraySize); j++)
+    do // for (j = 0; j < (*ptr_arraySize); j++)
     {
-        for (i = 0; i < ((*ptr_arraySize) - i); i++)
+        ntrocas = 0;
+        for (i = 0; i < ((*ptr_arraySize) - 1); i++)
         {
             if (array[i] > array[i + 1])
             {
                 temp =  array[i];
                 array[i] = array[i + 1];
                 array[i + 1] = temp;
+                ntrocas++;
             }
         }
-    }
+    } while(ntrocas>0);
 
     if (((*ptr_arraySize) % 2) == 0) // se arraySize par
     {
-        mediana = ((float)array[(*ptr_arraySize) / 2] + (float)array[((*ptr_arraySize) / 2) + 1])/ 2.0; // arra[i] + arr[i+1]) / 2
+        mediana = (array[(*ptr_arraySize) / 2] + array[(*ptr_arraySize) / 2 - 1])/ 2.0; // arra[i] + arr[i+1]) / 2
     }
 
     if (((*ptr_arraySize) % 2) != 0)
     {
-        mediana = (float)array[(*ptr_arraySize) / 2];
+        mediana = array[(*ptr_arraySize) / 2];
     }
     
     printf("A mediana é: %.2f\n", mediana);
@@ -183,7 +185,7 @@ int main()
 
     do
     {
-        printf("1 – Inserir valores\n2 – Listar valores inseridos\n3 – Alterar um valor inserido\n4 – Calcular o valor médio\n5 – Calcular o desvio-padrão\n6 – Calcular a mediana\n7 – Sair/Terminar\n\nEscolha uma das opções: "); // promt pro utilizador
+        printf("1 - Inserir valores\n2 - Listar valores inseridos\n3 - Alterar um valor inserido\n4 - Calcular o valor médio\n5 - Calcular o desvio-padrão\n6 - Calcular a mediana\n7 - Sair/Terminar\n\nEscolha uma das opções: "); // promt pro utilizador
         scanf("%d", &i); // # para o case
         
         switch (i)
@@ -229,3 +231,4 @@ int main()
    
     printf("FIM DO PROGRAMA!!");
 }
+
