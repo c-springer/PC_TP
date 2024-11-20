@@ -2,7 +2,8 @@
 #include <math.h>
 #include <stdio.h>
 
-int getLista(float array[1000], int *ptr_arraySize){
+int getLista(float array[1000], int *ptr_arraySize)
+{
     int i;
 
     do
@@ -38,9 +39,9 @@ int returnLista(float array[1000], int *ptr_arraySize)
     for (i = 0; i < (*ptr_arraySize); i++)
     {
         printf("%.2f\n", array[i]);
-        if (n < 5) n++;   ///////////////////////////////////////////////////
+        if (n < 20) n++;
 
-        if (n == 5) // voltar a mudar para 20//////////////////////////////////
+        if (n == 20)
         {
             printf("\n");
             printf("Quer continuar? y ou n\n");
@@ -66,7 +67,6 @@ int changeLista(float array[1000], int *ptr_arraySize)
     int i;
     int novoValor;
 
-    // printf("\n\n");
     printf("Qual é a posição do número que quer alterar? ");
     scanf("%d", &i);
     
@@ -88,7 +88,6 @@ int changeLista(float array[1000], int *ptr_arraySize)
 
 float getMedia(float array[1000], int *ptr_arraySize, float media)
 {
-    // media = 0;
     float soma = 0;
     int i;
     
@@ -103,9 +102,9 @@ float getMedia(float array[1000], int *ptr_arraySize, float media)
     return media;
 }
 
-int getDesvio(float array[1000], int *ptr_arraySize, float media)   // array[i] -> x_i  ;  *ptr_arraySize -> N
+int getDesvio(float array[1000], int *ptr_arraySize, float media)
 {
-    int i; // posicao na array
+    int i;
     float somatorio = 0;
     float desvio;
 
@@ -128,10 +127,10 @@ int getDesvio(float array[1000], int *ptr_arraySize, float media)   // array[i] 
 int getMediana(float array[1000], int *ptr_arraySize)
 {
     int i;
-    int j;
     float mediana;
     int temp, ntrocas;
 
+    // bubble sort
     do // for (j = 0; j < (*ptr_arraySize); j++)
     {
         ntrocas = 0;
@@ -139,17 +138,17 @@ int getMediana(float array[1000], int *ptr_arraySize)
         {
             if (array[i] > array[i + 1])
             {
-                temp =  array[i];
+                temp = array[i];
                 array[i] = array[i + 1];
                 array[i + 1] = temp;
                 ntrocas++;
             }
         }
-    } while(ntrocas>0);
+    } while (ntrocas > 0);
 
     if (((*ptr_arraySize) % 2) == 0) // se arraySize par
     {
-        mediana = (array[(*ptr_arraySize) / 2] + array[(*ptr_arraySize) / 2 - 1])/ 2.0; // arra[i] + arr[i+1]) / 2
+        mediana = (array[(*ptr_arraySize) / 2] + array[(*ptr_arraySize) / 2 - 1])/ 2.0;
     }
 
     if (((*ptr_arraySize) % 2) != 0)
@@ -185,8 +184,8 @@ int main()
 
     do
     {
-        printf("1 - Inserir valores\n2 - Listar valores inseridos\n3 - Alterar um valor inserido\n4 - Calcular o valor médio\n5 - Calcular o desvio-padrão\n6 - Calcular a mediana\n7 - Sair/Terminar\n\nEscolha uma das opções: "); // promt pro utilizador
-        scanf("%d", &i); // # para o case
+        printf("1 - Inserir valores\n2 - Listar valores inseridos\n3 - Alterar um valor inserido\n4 - Calcular o valor médio\n5 - Calcular o desvio-padrão\n6 - Calcular a mediana\n7 - Sair/Terminar\n\nEscolha uma das opções: "); // promt para o utilizador
+        scanf("%d", &i);
         
         switch (i)
         {
@@ -231,4 +230,3 @@ int main()
    
     printf("FIM DO PROGRAMA!!");
 }
-
