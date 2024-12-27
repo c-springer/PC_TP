@@ -188,6 +188,36 @@ int changeSize(float **ptr_array, int *ptr_arraySize)
     return (**ptr_array, *ptr_arraySize);
 }
 
+void readFicheiro()
+{
+
+}
+
+void saveFicheiro()
+{
+
+}
+
+float filtroValores()
+{
+
+}
+
+int getPassaBaixo()
+{
+
+}
+
+int getIntegrador()
+{
+
+}
+
+void getGrafico()
+{
+
+}
+
 int main()
 {
     setlocale(LC_ALL, "pt_PT.UTF-8");
@@ -248,13 +278,43 @@ int main()
                 break;
 
             case 8:
+                readFicheiro();
+                printf("\n\n");
+                break;
+
+            case 9:
+                saveFicheiro();
+                printf("\n\n");
+                break;
+
+            case 10:
+                filtroValores();
+                printf("\n\n");
+                break;
+
+            case 11:
+                getPassaBaixo();
+                printf("\n\n");
+                break;
+
+            case 12:
+                getIntegrador();
+                printf("\n\n");
+                break;
+
+            case 13:
+                getGrafico();
+                printf("\n\n");
+                break;
+
+            case 14:
                 break;
             
             default:
                 printf("Opção inválida. Tente novamente.\n\n");
                 break;
         }
-   } while (i != 8);
+   } while (i != 14);
    
     printf("FIM DO PROGRAMA!!");
 }
