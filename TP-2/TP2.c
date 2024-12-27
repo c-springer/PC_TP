@@ -207,7 +207,7 @@ int main()
 
     do
     {
-        printf("1 - Inserir valores\n2 - Listar valores inseridos\n3 - Alterar um valor inserido\n4 - Calcular o valor médio\n5 - Calcular o desvio-padrão\n6 - Calcular a mediana\n7 - Alterar quantidade de valores\n8 - Sair/Terminar\n\nEscolha uma das opções: "); // promt para o utilizador
+        printf("1 - Inserir valores\n2 - Listar valores inseridos\n3 - Alterar um valor inserido\n4 - Calcular o valor médio\n5 - Calcular o desvio-padrão\n6 - Calcular a mediana\n7 - Alterar quantidade de valores\n8 - Ler valores de um ficheiro\n9 - Guadar valores num ficheiro\n10 - Filtrar valores num intervalo\n11 - Aplicar filtro Passa-Baixo\n12 - Calcular integrador\n13 - Visualização gráfica do ficheiro\n14 - Sair/Terminar\n\nEscolha uma das opções: "); // promt para o utilizador
         scanf("%d", &i);
         
         switch (i)
