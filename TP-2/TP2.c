@@ -16,15 +16,15 @@ int getLista(float **ptr_array, int *ptr_arraySize)
         {
             printf("Numero demasiado pequeno\n\n");
         }
+    } while ((*ptr_arraySize) < 1);
 
-        *ptr_array = (float*) malloc((*ptr_arraySize) * sizeof(float));
+    *ptr_array = (float*) malloc((*ptr_arraySize) * sizeof(float));
 
-        if (ptr_array == NULL)
-        {
-            printf("Memoria não alocada.\n\n");
-
-        }
-    } while ((*ptr_arraySize) < 1 || ptr_array == NULL);
+    if (ptr_array == NULL)
+    {
+        printf("Memoria não alocada.\n\n");
+        return 1;
+    }
     
     printf("Insira os valores:\n");
     for (i = 0; i < (*ptr_arraySize); i++)
@@ -173,28 +173,64 @@ int changeSize(float **ptr_array, int *ptr_arraySize)
         printf("Insira a nova quantidade de valores: ");
         scanf("%d", &*ptr_arraySize);
 
-        new_ptr_array = (float*) realloc(*ptr_array, (*ptr_arraySize) * sizeof(float));
-
-        if (new_ptr_array == NULL)
+        if ((*ptr_arraySize) < 1)
         {
-            printf("Memoria não alocada.\n\n");
-
+            printf("Numero demasiado pequeno\n\n");
         }
-    } while (new_ptr_array == NULL);
+    } while ((*ptr_arraySize) < 1);
+
+    new_ptr_array = (float*) realloc(*ptr_array, (*ptr_arraySize) * sizeof(float));
+
+    if (new_ptr_array == NULL)
+    {
+        printf("Memoria não alocada.\n\n");
+        return 1;
+    }
 
     *ptr_array = new_ptr_array;
-
 
     return (**ptr_array, *ptr_arraySize);
 }
 
-void readFicheiro()
+float readFicheiro(float **ptr_array, int *ptr_arraySize, char *ptr_formato) 
 {
+    FILE *fptr;
+    char *file_name;
+    char r;
+    float *new_ptr_array;
 
+    printf("Qual é o ficheiro que usar? ");
+    scanf("%c", file_name);
+
+    fptr = fopen(file_name, "r");
+
+    if (fptr == NULL)
+    {
+        printf("Ficheiro não aberto.\n");
+        return 1;
+    }
+
+    fscanf(fptr, ptr_formato, &*ptr_arraySize);
+
+    new_ptr_array = (float*) realloc(*ptr_array, (*ptr_arraySize) * sizeof(float));
+
+    if (new_ptr_array == NULL)
+    {
+        printf("Memoria não alocada.\n\n");
+        return 1;
+    }
+
+
+
+
+    *ptr_array = new_ptr_array;
+
+    return (**ptr_array, *ptr_arraySize);
 }
 
 void saveFicheiro()
 {
+    FILE *fptr;
 
 }
 
@@ -223,17 +259,13 @@ int main()
     setlocale(LC_ALL, "pt_PT.UTF-8");
     setlocale(LC_NUMERIC, "c");
 
-    FILE *fptr;
-
     int i; // # para o case
     float *myLista = NULL; // array
-
     int arraySize;
-    // int *ptr_arraySize;
-    // ptr_arraySize = &arraySize;
  
     float media;
     float desvio;
+    char formato = '#';
 
     do
     {
@@ -278,7 +310,7 @@ int main()
                 break;
 
             case 8:
-                readFicheiro();
+                readFicheiro(&myLista, &arraySize, &formato);
                 printf("\n\n");
                 break;
 
