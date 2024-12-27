@@ -234,15 +234,83 @@ void saveFicheiro()
 
 }
 
-float filtroValores()
+void filtroValores(float *valores, int arraySize, float maximo, minimo)
 {
+    if (arraySize == 0) 
+    {
+        printf("Nenhum valor a filtrar. Insira valores para prosseguir.\n");
+        return;
+    }
 
+    printf("Insira o valor máximo: ");
+    scanf("%f", &maximo);
+    printf("Insira o valor mínimo: ");
+    scanf("%f", &minimo);
+
+    printf("Os valores entre %.2f e %.2f são:\n", minimo, maximo); // %.2f para max e mkin terem 2 casas décimais //
+    for (int i = 0; i < arraySize; i++)
+    {
+        if (valores[i] >= minimo && valores[i] <= maximo) 
+        {
+            printf("Valor na posição %d: %.2f\n", i + 1, valores[i]);
+        }
+    }
 }
 
-int getPassaBaixo()
+void aplicarFiltroPassaBaixo(float *valores, int arraySize) 
 {
+    if (arraySize == 0) 
+    {
+        printf("Nenhum valor a filtrar. Insira valores para prosseguir.\n");
+        return;
+    }
 
+    int n_consegutivas;
+    printf("Insira o valor de N (entre 2 e 100): ");
+    scanf("%d", &n_consegutivas);
+
+    if (n_consegutivas < 2 || n_consegutivas > 100)
+    {
+        printf("Valor de N inválido. O valor inserido tem de estar entre 2 e 100.\n");
+        return;
+    }
+
+    float* n_filtrados = (float*)malloc(arraySize * sizeof(float));
+    if (n_filtrados == NULL) 
+    {
+        printf("ERRO. Não foi possível alocar memória para os valores filtrados!\n");
+        return;
+    }
+
+    for (int i = 0; i < arraySize; i++)
+    {
+        float soma = 0;
+        int count = 0;
+
+        if (i < n_consegutivas)
+        {
+            for (int k = 0; k <= i; k++) 
+            {
+                soma += valores[k];
+            }
+            n_filtrados[i] = soma / (i + 1);
+        }
+        else 
+        {
+            for (int k = i - n_consegutivas + 1; k <= i; k++) 
+            {
+                soma += valores[k];
+            }
+            n_filtrados[i] = soma / n_consegutivas;
+        }
+    }
+
+     free(valores);
+    valores = n_filtrados;
+    printf("O Filtro passa-baixo foi aplicado :) \n");
 }
+
+
 
 int getIntegrador()
 {
@@ -320,7 +388,7 @@ int main()
                 break;
 
             case 10:
-                filtroValores();
+                filtroValores(&arraySize);
                 printf("\n\n");
                 break;
 
