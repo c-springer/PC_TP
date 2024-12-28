@@ -195,9 +195,10 @@ int changeSize(float **ptr_array, int *ptr_arraySize)
 float readFicheiro(float **ptr_array, int *ptr_arraySize) 
 {
     FILE *fptr;
-    char file_name;
-    char r;
+    char file_name[200];
+    char r, formato;
     float *new_ptr_array;
+    int i;
 
     printf("Qual é o ficheiro que usar? ");
     scanf("%s", file_name);
@@ -207,10 +208,16 @@ float readFicheiro(float **ptr_array, int *ptr_arraySize)
     if (fptr == NULL)
     {
         printf("Ficheiro não aberto.\n");
-        return;
+        return 1;
     }
 
-    fscanf(fptr, "# ", &*ptr_arraySize);
+    fscanf( fptr, "%s %d", &formato, &*ptr_arraySize);
+
+    if (formato != '#')
+    {
+        printf("Ficheiro com formato invalido.\n");
+        return 1;
+    }
 
     new_ptr_array = (float*) realloc(*ptr_array, (*ptr_arraySize) * sizeof(float));
 
@@ -220,10 +227,14 @@ float readFicheiro(float **ptr_array, int *ptr_arraySize)
         return 1;
     }
 
-
-
+    for (i = 0; i < (*ptr_arraySize); i++)
+    {
+        fscanf(fptr, "%f", &(*ptr_array)[i]);
+    }
 
     *ptr_array = new_ptr_array;
+
+    fclose(fptr);
 
     return (**ptr_array, *ptr_arraySize);
 }
