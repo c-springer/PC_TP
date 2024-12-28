@@ -192,25 +192,25 @@ int changeSize(float **ptr_array, int *ptr_arraySize)
     return (**ptr_array, *ptr_arraySize);
 }
 
-float readFicheiro(float **ptr_array, int *ptr_arraySize, char *ptr_formato) 
+float readFicheiro(float **ptr_array, int *ptr_arraySize) 
 {
     FILE *fptr;
-    char *file_name;
+    char file_name;
     char r;
     float *new_ptr_array;
 
     printf("Qual é o ficheiro que usar? ");
-    scanf("%c", file_name);
+    scanf("%s", file_name);
 
     fptr = fopen(file_name, "r");
 
     if (fptr == NULL)
     {
         printf("Ficheiro não aberto.\n");
-        return 1;
+        return;
     }
 
-    fscanf(fptr, ptr_formato, &*ptr_arraySize);
+    fscanf(fptr, "# ", &*ptr_arraySize);
 
     new_ptr_array = (float*) realloc(*ptr_array, (*ptr_arraySize) * sizeof(float));
 
@@ -234,7 +234,7 @@ void saveFicheiro()
 
 }
 
-void filtroValores(float *valores, int arraySize, float maximo, minimo)
+void filtroValores(float *valores, int arraySize, float maximo, float minimo)
 {
     if (arraySize == 0) 
     {
@@ -257,7 +257,7 @@ void filtroValores(float *valores, int arraySize, float maximo, minimo)
     }
 }
 
-void aplicarFiltroPassaBaixo(float *valores, int arraySize) 
+void getPassaBaixo(float *valores, int arraySize) 
 {
     if (arraySize == 0) 
     {
@@ -310,8 +310,6 @@ void aplicarFiltroPassaBaixo(float *valores, int arraySize)
     printf("O Filtro passa-baixo foi aplicado :) \n");
 }
 
-
-
 int getIntegrador()
 {
 
@@ -333,7 +331,7 @@ int main()
  
     float media;
     float desvio;
-    char formato = '#';
+    // char formato = '#';
 
     do
     {
@@ -378,7 +376,7 @@ int main()
                 break;
 
             case 8:
-                readFicheiro(&myLista, &arraySize, &formato);
+                readFicheiro(&myLista, &arraySize);
                 printf("\n\n");
                 break;
 
@@ -388,7 +386,7 @@ int main()
                 break;
 
             case 10:
-                filtroValores(&arraySize);
+                filtroValores(&arraySize, );
                 printf("\n\n");
                 break;
 
