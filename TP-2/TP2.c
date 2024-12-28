@@ -20,7 +20,7 @@ int getLista(float **ptr_array, int *ptr_arraySize)
 
     *ptr_array = (float*) malloc((*ptr_arraySize) * sizeof(float));
 
-    if (ptr_array == NULL)
+    if (*ptr_array == NULL)
     {
         printf("Memoria não alocada.\n\n");
         return 1;
@@ -195,7 +195,7 @@ int changeSize(float **ptr_array, int *ptr_arraySize)
 float readFicheiro(float **ptr_array, int *ptr_arraySize) 
 {
     FILE *fptr;
-    char file_name[200];
+    char file_name[256];
     char r, formato;
     float *new_ptr_array;
     int i;
@@ -211,7 +211,7 @@ float readFicheiro(float **ptr_array, int *ptr_arraySize)
         return 1;
     }
 
-    fscanf( fptr, "%s %d", &formato, &*ptr_arraySize);
+    fscanf( fptr, "%c %d", &formato, &*ptr_arraySize);
 
     if (formato != '#')
     {
@@ -229,7 +229,7 @@ float readFicheiro(float **ptr_array, int *ptr_arraySize)
 
     for (i = 0; i < (*ptr_arraySize); i++)
     {
-        fscanf(fptr, "%f", &(*ptr_array)[i]);
+        fscanf(fptr, "%f", &new_ptr_array[i]);
     }
 
     *ptr_array = new_ptr_array;
@@ -239,10 +239,33 @@ float readFicheiro(float **ptr_array, int *ptr_arraySize)
     return (**ptr_array, *ptr_arraySize);
 }
 
-void saveFicheiro()
+void saveFicheiro(float **ptr_array, int *ptr_arraySize)
 {
     FILE *fptr;
+    char file_name[256];
+    int i;
 
+    printf("Qual o caminho e/ou o nome do ficheiro onde quere guardar? ");
+    scanf("%s", file_name);
+
+    fptr = fopen(file_name, "w");
+
+    if (fptr == NULL)
+    {
+        printf("Ficheiro não aberto.\n");
+        return 1;
+    }
+
+    fprintf(fptr, "# %d", *ptr_arraySize);
+
+    for (i = 0; i < (*ptr_arraySize); i++)
+    {
+        fprintf(fptr, "%f", ptr_array[i]);
+    }
+
+    fclose(fptr);
+
+    return 0;
 }
 
 void filtroValores(float *valores, int arraySize, float maximo, float minimo)
@@ -392,7 +415,7 @@ int main()
                 break;
 
             case 9:
-                saveFicheiro();
+                saveFicheiro(&myLista, &arraySize);
                 printf("\n\n");
                 break;
 
