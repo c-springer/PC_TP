@@ -10,7 +10,7 @@ int getLista(float **ptr_array, int *ptr_arraySize)
     do
     {
         printf("Insira a quantidade de valores: ");
-        scanf("%d", &*ptr_arraySize);
+        scanf("%d", ptr_arraySize);
 
         if ((*ptr_arraySize) < 1)
         {
@@ -171,7 +171,7 @@ int changeSize(float **ptr_array, int *ptr_arraySize)
     do
     {
         printf("Insira a nova quantidade de valores: ");
-        scanf("%d", &*ptr_arraySize);
+        scanf("%d", ptr_arraySize);
 
         if ((*ptr_arraySize) < 1)
         {
@@ -260,7 +260,7 @@ int saveFicheiro(float **ptr_array, int *ptr_arraySize)
 
     for (i = 0; i < (*ptr_arraySize); i++)
     {
-        fprintf(fptr, "%f", ptr_array[i]);
+        fprintf(fptr, "%f", (*ptr_array)[i]);
     }
 
     fclose(fptr);
@@ -276,7 +276,7 @@ void filtroValores(float *ptr_array, int *ptr_arraySize)
     if ((*ptr_arraySize) == 0) 
     {
         printf("Sem valores a filtrar.\n");
-        return 0;
+        return;
     }
 
     printf("Insira o valor máximo: ");
@@ -306,7 +306,7 @@ void getPassaBaixo(float *ptr_array, int *ptr_arraySize)
     if ((*ptr_arraySize) == 0) 
     {
         printf("Sem valores a filtrar.\n\n");
-        return 0;
+        return;
     }
 
     printf("Insira o valor de N (entre 2 e 100): ");
@@ -315,7 +315,7 @@ void getPassaBaixo(float *ptr_array, int *ptr_arraySize)
     if (n_seguidos < 2 || n_seguidos > 100)
     {
         printf("Valor de N inválido.\n\n");
-        return 0;
+        return;
     }
 
     n_filtrados = (float*) malloc((*ptr_arraySize) * sizeof(float));
@@ -323,7 +323,7 @@ void getPassaBaixo(float *ptr_array, int *ptr_arraySize)
     if (n_filtrados == NULL)
     {
         printf("Memoria não alocada.\n\n");
-        return 1;
+        return;
     }
 
     for (i = 0; i < (*ptr_arraySize); i++)
@@ -348,10 +348,10 @@ void getPassaBaixo(float *ptr_array, int *ptr_arraySize)
         }
     }
 
-    saveFicheiro(n_filtrados, &ptr_arraySize);
+    saveFicheiro(&n_filtrados, &*ptr_arraySize);
 
     printf("O Filtro passa-baixo aplicado.\n");
-    return 0;
+    return;
 }
 
 int getIntegrador(float *ptr_array, int *ptr_arraySize)
@@ -362,7 +362,7 @@ int getIntegrador(float *ptr_array, int *ptr_arraySize)
     if ((*ptr_arraySize) == 0)
     {
         printf("Nenhum valor a calcular.\n\n");
-        return;
+        return 1;
     }
 
     v_integrados = (float*) malloc((*ptr_arraySize) * sizeof(float));
@@ -379,7 +379,7 @@ int getIntegrador(float *ptr_array, int *ptr_arraySize)
         v_integrados[i] = soma;
     }
 
-    saveFicheiro(v_integrados, &ptr_arraySize);
+    saveFicheiro(&v_integrados, &*ptr_arraySize);
 
     return 0;
 }
@@ -388,15 +388,16 @@ void getGrafico()
 {
     FILE *fptr;
     char file_name[256];
-    char comando;
+    char comando[300];
 
     printf("nome ficheiro: ");
     scanf("%s", file_name);
 
-    sprintf(comando, "ddd %s rrr", file_name);
+    sprintf(comando, "\"gnuplot -p -e ’plot %s with lines’\"", file_name);
 
-    system();
+    system(comando);
 
+    return;
 }
 
 int main()
