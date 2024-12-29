@@ -69,7 +69,7 @@ int returnLista(float *ptr_array, int *ptr_arraySize)
 int changeLista(float *ptr_array, int *ptr_arraySize)
 {
     int i;
-    int novoValor;
+    float novoValor;
 
     printf("Qual é a posição do número que quer alterar? ");
     scanf("%d", &i);
@@ -77,15 +77,15 @@ int changeLista(float *ptr_array, int *ptr_arraySize)
     if (i < 0 || i > (*ptr_arraySize)) printf("Posição inválida\n\n");
     else
     {
-        printf("O valor que quer mudar é: %.2f\n", ptr_array[i]);
+        printf("O valor que quer mudar é: %.2f\n", ptr_array[i + 1]);
         printf("\n");
 
         printf("Qual é o novo valor? ");
-        scanf("%d", &novoValor);
+        scanf("%f", &novoValor);
 
         ptr_array[i] = novoValor;
 
-        printf("O valor foi alterado para: %d\n", novoValor);
+        printf("O valor foi alterado para: %f\n", novoValor);
     }
     return 0;
 }
@@ -196,7 +196,8 @@ float readFicheiro(float **ptr_array, int *ptr_arraySize)
 {
     FILE *fptr;
     char file_name[256];
-    char r, formato;
+    char r;
+    char formato[2];
     float *new_ptr_array;
     int i;
 
@@ -211,7 +212,7 @@ float readFicheiro(float **ptr_array, int *ptr_arraySize)
         return 1;
     }
 
-    fscanf( fptr, "%c %d", &formato, &*ptr_arraySize);
+    fscanf( fptr, "%s %d", &formato, &*ptr_arraySize);
 
     if (formato != '#')
     {
