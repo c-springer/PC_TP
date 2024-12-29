@@ -10,7 +10,7 @@ int getLista(float **ptr_array, int *ptr_arraySize)
     do
     {
         printf("Insira a quantidade de valores: ");
-        scanf("%d", &*ptr_arraySize);
+        scanf("%d", ptr_arraySize);
 
         if ((*ptr_arraySize) < 1)
         {
@@ -68,8 +68,8 @@ int returnLista(float *ptr_array, int *ptr_arraySize)
 
 int changeLista(float *ptr_array, int *ptr_arraySize)
 {
-    int i;
-    int novoValor;
+    int i = 0;
+    float novoValor;
 
     printf("Qual é a posição do número que quer alterar? ");
     scanf("%d", &i);
@@ -77,15 +77,15 @@ int changeLista(float *ptr_array, int *ptr_arraySize)
     if (i < 0 || i > (*ptr_arraySize)) printf("Posição inválida\n\n");
     else
     {
-        printf("O valor que quer mudar é: %.2f\n", ptr_array[i]);
+        printf("O valor que quer mudar é: %.2f\n", ptr_array[i - 1]);
         printf("\n");
 
         printf("Qual é o novo valor? ");
-        scanf("%d", &novoValor);
+        scanf("%f", &novoValor);
 
-        ptr_array[i] = novoValor;
+        ptr_array[i - 1] = novoValor;
 
-        printf("O valor foi alterado para: %d\n", novoValor);
+        printf("O valor foi alterado para: %f\n", novoValor);
     }
     return 0;
 }
@@ -168,10 +168,16 @@ int changeSize(float **ptr_array, int *ptr_arraySize)
 {
     float *new_ptr_array;
 
+    if (*ptr_array == NULL)
+    {
+        printf("Memoria não alocada.\n\n");
+        return 1;
+    }
+
     do
     {
         printf("Insira a nova quantidade de valores: ");
-        scanf("%d", &*ptr_arraySize);
+        scanf("%d", ptr_arraySize);
 
         if ((*ptr_arraySize) < 1)
         {
@@ -196,7 +202,8 @@ float readFicheiro(float **ptr_array, int *ptr_arraySize)
 {
     FILE *fptr;
     char file_name[256];
-    char r, formato;
+    char r;
+    char formato;
     float *new_ptr_array;
     int i;
 
@@ -219,7 +226,17 @@ float readFicheiro(float **ptr_array, int *ptr_arraySize)
         return 1;
     }
 
-    new_ptr_array = (float*) realloc(*ptr_array, (*ptr_arraySize) * sizeof(float));
+    if (*ptr_array == NULL)
+    {
+        new_ptr_array = (float*) malloc((*ptr_arraySize) * sizeof(float));
+    }
+
+    else
+    {
+        new_ptr_array = (float*) realloc(*ptr_array, (*ptr_arraySize) * sizeof(float));
+    }
+
+
 
     if (new_ptr_array == NULL)
     {
@@ -239,7 +256,7 @@ float readFicheiro(float **ptr_array, int *ptr_arraySize)
     return (**ptr_array, *ptr_arraySize);
 }
 
-void saveFicheiro(float **ptr_array, int *ptr_arraySize)
+int saveFicheiro(float **ptr_array, int *ptr_arraySize)
 {
     FILE *fptr;
     char file_name[256];
@@ -256,11 +273,11 @@ void saveFicheiro(float **ptr_array, int *ptr_arraySize)
         return 1;
     }
 
-    fprintf(fptr, "# %d", *ptr_arraySize);
+    fprintf(fptr, "# %d\n", *ptr_arraySize);
 
     for (i = 0; i < (*ptr_arraySize); i++)
     {
-        fprintf(fptr, "%f", ptr_array[i]);
+        fprintf(fptr, "%f\n", (*ptr_array)[i]);
     }
 
     fclose(fptr);
@@ -268,90 +285,159 @@ void saveFicheiro(float **ptr_array, int *ptr_arraySize)
     return 0;
 }
 
-void filtroValores(float *valores, int arraySize, float maximo, float minimo)
+void filtroValores(float *ptr_array, int *ptr_arraySize)
 {
-    if (arraySize == 0) 
+    float max, min;
+    int i;
+
+    if ((*ptr_arraySize) == 0) 
     {
-        printf("Nenhum valor a filtrar. Insira valores para prosseguir.\n");
+        printf("Sem valores a filtrar.\n");
         return;
     }
 
     printf("Insira o valor máximo: ");
-    scanf("%f", &maximo);
+    scanf("%f", &max);
     printf("Insira o valor mínimo: ");
-    scanf("%f", &minimo);
+    scanf("%f", &min);
 
-    printf("Os valores entre %.2f e %.2f são:\n", minimo, maximo); // %.2f para max e mkin terem 2 casas décimais //
-    for (int i = 0; i < arraySize; i++)
+    printf("Os valores entre %.2f e %.2f são:\n", min, max);
+
+    for (i = 0; i < (*ptr_arraySize); i++)
     {
-        if (valores[i] >= minimo && valores[i] <= maximo) 
+        if (ptr_array[i] >= min && ptr_array[i] <= max) 
         {
-            printf("Valor na posição %d: %.2f\n", i + 1, valores[i]);
+            printf("Valor na posição %d: %.2f\n", i + 1, ptr_array[i]);
         }
     }
+
+    return;
 }
 
-void getPassaBaixo(float *valores, int arraySize) 
+void getPassaBaixo(float *ptr_array, int *ptr_arraySize) 
 {
-    if (arraySize == 0) 
+    int n_seguidos;
+    int i, j;
+    float *n_filtrados;
+    float somatorio = 0;
+
+
+    if ((*ptr_arraySize) == 0) 
     {
-        printf("Nenhum valor a filtrar. Insira valores para prosseguir.\n");
+        printf("Sem valores a filtrar.\n\n");
         return;
     }
 
-    int n_consegutivas;
     printf("Insira o valor de N (entre 2 e 100): ");
-    scanf("%d", &n_consegutivas);
+    scanf("%d", &n_seguidos);
 
-    if (n_consegutivas < 2 || n_consegutivas > 100)
+    if (n_seguidos < 2 || n_seguidos > 100)
     {
-        printf("Valor de N inválido. O valor inserido tem de estar entre 2 e 100.\n");
+        printf("Valor de N inválido.\n\n");
         return;
     }
 
-    float* n_filtrados = (float*)malloc(arraySize * sizeof(float));
-    if (n_filtrados == NULL) 
+    n_filtrados = (float*) malloc((*ptr_arraySize) * sizeof(float));
+    
+    if (n_filtrados == NULL)
     {
-        printf("ERRO. Não foi possível alocar memória para os valores filtrados!\n");
+        printf("Memoria não alocada.\n\n");
         return;
     }
 
-    for (int i = 0; i < arraySize; i++)
+    for (i = 0; i < (*ptr_arraySize); i++)
     {
-        float soma = 0;
-        int count = 0;
+        if (i < n_seguidos)
+        {
+            for (j = 0; j <= i; j++) 
+            {
+                somatorio += ptr_array[j];
+            }
 
-        if (i < n_consegutivas)
-        {
-            for (int k = 0; k <= i; k++) 
-            {
-                soma += valores[k];
-            }
-            n_filtrados[i] = soma / (i + 1);
+            n_filtrados[i] = somatorio / (i + 1);
         }
-        else 
+
+        else
         {
-            for (int k = i - n_consegutivas + 1; k <= i; k++) 
+            for (j = i - n_seguidos + 1; j <= i; j++) 
             {
-                soma += valores[k];
+                somatorio += ptr_array[j];
             }
-            n_filtrados[i] = soma / n_consegutivas;
+            n_filtrados[i] = somatorio / n_seguidos;
         }
     }
 
-     free(valores);
-    valores = n_filtrados;
-    printf("O Filtro passa-baixo foi aplicado :) \n");
+    saveFicheiro(&n_filtrados, &*ptr_arraySize);
+
+    printf("O Filtro passa-baixo aplicado.\n");
+    return;
 }
 
-int getIntegrador()
+int getIntegrador(float *ptr_array, int *ptr_arraySize)
 {
+    float *v_integrados;
+    float somatorio = 0;
+    int i;
 
+    if ((*ptr_arraySize) == 0)
+    {
+        printf("Nenhum valor a calcular.\n\n");
+        return 1;
+    }
+
+    v_integrados = (float*) malloc((*ptr_arraySize) * sizeof(float));
+
+    if (v_integrados == NULL)
+    {
+        printf("Memoria não alocada.\n\n");
+        return 1;
+    }
+
+    for (i = 0; i < (*ptr_arraySize); i++)
+    {
+        somatorio += ptr_array[i];
+        v_integrados[i] = somatorio;
+        
+    }
+
+    saveFicheiro(&v_integrados, &*ptr_arraySize);
+    free(v_integrados);
+
+    return 0;
 }
 
 void getGrafico()
 {
+    FILE *fptr;
+    char file_name[256];
+    char comando[300];
+    int resultado;
 
+    printf("nome ficheiro: ");
+    scanf("%s", file_name);
+
+    fptr = fopen(file_name, "r");
+    if (fptr == NULL)
+    {
+        printf("Ficheiro %s não aberto.\n", file_name);
+        return;
+    }
+    else
+    {
+        printf("Ficheiro existe.\n");
+    }
+    fclose(fptr);
+
+    sprintf(comando, "gnuplot -p -e \"plot '%s' with lines\"", file_name);
+
+    resultado = system(comando);
+    if (resultado == -1) 
+    {
+        printf("Erro ao chamar gnuplot. Verifique se gnuplot está instalado e no PATH.\n");
+    }
+
+
+    return;
 }
 
 int main()
@@ -420,17 +506,17 @@ int main()
                 break;
 
             case 10:
-                filtroValores(&arraySize, );
+                filtroValores(myLista, &arraySize);
                 printf("\n\n");
                 break;
 
             case 11:
-                getPassaBaixo();
+                getPassaBaixo(myLista, &arraySize);
                 printf("\n\n");
                 break;
 
             case 12:
-                getIntegrador();
+                getIntegrador(myLista, &arraySize);
                 printf("\n\n");
                 break;
 
@@ -447,6 +533,8 @@ int main()
                 break;
         }
    } while (i != 14);
+
+   free(myLista);
    
     printf("FIM DO PROGRAMA!!");
 }
