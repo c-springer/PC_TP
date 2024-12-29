@@ -68,7 +68,7 @@ int returnLista(float *ptr_array, int *ptr_arraySize)
 
 int changeLista(float *ptr_array, int *ptr_arraySize)
 {
-    int i;
+    int i = 0;
     float novoValor;
 
     printf("Qual é a posição do número que quer alterar? ");
@@ -77,13 +77,13 @@ int changeLista(float *ptr_array, int *ptr_arraySize)
     if (i < 0 || i > (*ptr_arraySize)) printf("Posição inválida\n\n");
     else
     {
-        printf("O valor que quer mudar é: %.2f\n", ptr_array[i + 1]);
+        printf("O valor que quer mudar é: %.2f\n", ptr_array[i - 1]);
         printf("\n");
 
         printf("Qual é o novo valor? ");
         scanf("%f", &novoValor);
 
-        ptr_array[i] = novoValor;
+        ptr_array[i - 1] = novoValor;
 
         printf("O valor foi alterado para: %f\n", novoValor);
     }
@@ -168,6 +168,12 @@ int changeSize(float **ptr_array, int *ptr_arraySize)
 {
     float *new_ptr_array;
 
+    if (*ptr_array == NULL)
+    {
+        printf("Memoria não alocada.\n\n");
+        return 1;
+    }
+
     do
     {
         printf("Insira a nova quantidade de valores: ");
@@ -197,7 +203,7 @@ float readFicheiro(float **ptr_array, int *ptr_arraySize)
     FILE *fptr;
     char file_name[256];
     char r;
-    char formato[2];
+    char formato;
     float *new_ptr_array;
     int i;
 
@@ -212,7 +218,7 @@ float readFicheiro(float **ptr_array, int *ptr_arraySize)
         return 1;
     }
 
-    fscanf( fptr, "%s %d", &formato, &*ptr_arraySize);
+    fscanf( fptr, "%c %d", &formato, &*ptr_arraySize);
 
     if (formato != '#')
     {
@@ -220,7 +226,17 @@ float readFicheiro(float **ptr_array, int *ptr_arraySize)
         return 1;
     }
 
-    new_ptr_array = (float*) realloc(*ptr_array, (*ptr_arraySize) * sizeof(float));
+    if (*ptr_array == NULL)
+    {
+        new_ptr_array = (float*) malloc((*ptr_arraySize) * sizeof(float));
+    }
+
+    else
+    {
+        new_ptr_array = (float*) realloc(*ptr_array, (*ptr_arraySize) * sizeof(float));
+    }
+
+
 
     if (new_ptr_array == NULL)
     {
@@ -261,7 +277,7 @@ int saveFicheiro(float **ptr_array, int *ptr_arraySize)
 
     for (i = 0; i < (*ptr_arraySize); i++)
     {
-        fprintf(fptr, "%f", (*ptr_array)[i]);
+        fprintf(fptr, "%f\n", (*ptr_array)[i]);
     }
 
     fclose(fptr);
@@ -294,6 +310,8 @@ void filtroValores(float *ptr_array, int *ptr_arraySize)
             printf("Valor na posição %d: %.2f\n", i + 1, ptr_array[i]);
         }
     }
+
+    return;
 }
 
 void getPassaBaixo(float *ptr_array, int *ptr_arraySize) 
@@ -301,7 +319,7 @@ void getPassaBaixo(float *ptr_array, int *ptr_arraySize)
     int n_seguidos;
     int i, j;
     float *n_filtrados;
-    float somatorio;
+    float somatorio = 0;
 
 
     if ((*ptr_arraySize) == 0) 
@@ -358,7 +376,8 @@ void getPassaBaixo(float *ptr_array, int *ptr_arraySize)
 int getIntegrador(float *ptr_array, int *ptr_arraySize)
 {
     float *v_integrados;
-    float soma;
+    float somatorio = 0;
+    int i;
 
     if ((*ptr_arraySize) == 0)
     {
@@ -374,13 +393,15 @@ int getIntegrador(float *ptr_array, int *ptr_arraySize)
         return 1;
     }
 
-    for (int i = 0; i < (*ptr_arraySize); i++)
+    for (i = 0; i < (*ptr_arraySize); i++)
     {
-        soma += ptr_array[i];
-        v_integrados[i] = soma;
+        somatorio += ptr_array[i];
+        v_integrados[i] = somatorio;
+        
     }
 
     saveFicheiro(&v_integrados, &*ptr_arraySize);
+    free(v_integrados);
 
     return 0;
 }
@@ -390,13 +411,31 @@ void getGrafico()
     FILE *fptr;
     char file_name[256];
     char comando[300];
+    int resultado;
 
     printf("nome ficheiro: ");
     scanf("%s", file_name);
 
-    sprintf(comando, "\"gnuplot -p -e ’plot %s with lines’\"", file_name);
+    fptr = fopen(file_name, "r");
+    if (fptr == NULL)
+    {
+        printf("Ficheiro %s não aberto.\n", file_name);
+        return;
+    }
+    else
+    {
+        printf("Ficheiro existe.\n");
+    }
+    fclose(fptr);
 
-    system(comando);
+    sprintf(comando, "gnuplot -p -e \"plot '%s' with lines\"", file_name);
+
+    resultado = system(comando);
+    if (resultado == -1) 
+    {
+        printf("Erro ao chamar gnuplot. Verifique se gnuplot está instalado e no PATH.\n");
+    }
+
 
     return;
 }
