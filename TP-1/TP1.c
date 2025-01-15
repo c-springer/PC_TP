@@ -55,7 +55,7 @@ int returnLista(float array[1000], int *ptr_arraySize)
                 n = 0;
             }
 
-            else if (r == 'n') break;
+            else if (r == 'n') return 1;
             else printf("Resposta invalida\n\n");
         }
     }
@@ -73,13 +73,13 @@ int changeLista(float array[1000], int *ptr_arraySize)
     if (i < 0 || i > (*ptr_arraySize)) printf("Posição inválida\n\n");
     else
     {
-        printf("O valor que quer mudar é: %.2f\n", array[i]);
+        printf("O valor que quer mudar é: %.2f\n", array[i - 1]);
         printf("\n");
 
         printf("Qual é o novo valor? ");
         scanf("%d", &novoValor);
 
-        array[i] = novoValor;
+        array[i - 1] = novoValor;
 
         printf("O valor foi alterado para: %d\n", novoValor);
     }

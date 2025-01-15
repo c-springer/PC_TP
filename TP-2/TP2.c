@@ -319,7 +319,7 @@ void getPassaBaixo(float *ptr_array, int *ptr_arraySize)
     int n_seguidos;
     int i, j;
     float *n_filtrados;
-    float somatorio = 0;
+    float somatorio;
 
 
     if ((*ptr_arraySize) == 0) 
@@ -347,6 +347,8 @@ void getPassaBaixo(float *ptr_array, int *ptr_arraySize)
 
     for (i = 0; i < (*ptr_arraySize); i++)
     {
+        somatorio = 0;
+        
         if (i < n_seguidos)
         {
             for (j = 0; j <= i; j++) 
@@ -354,12 +356,12 @@ void getPassaBaixo(float *ptr_array, int *ptr_arraySize)
                 somatorio += ptr_array[j];
             }
 
-            n_filtrados[i] = somatorio / (i + 1);
+            n_filtrados[i] = somatorio / n_seguidos;
         }
 
         else
         {
-            for (j = i - n_seguidos + 1; j <= i; j++) 
+            for (j = (i - n_seguidos + 1); j <= i; j++) 
             {
                 somatorio += ptr_array[j];
             }
@@ -443,7 +445,7 @@ void getGrafico()
 int main()
 {
     setlocale(LC_ALL, "pt_PT.UTF-8");
-    setlocale(LC_NUMERIC, "c");
+    setlocale(LC_NUMERIC, "C");
 
     int i; // # para o case
     float *myLista = NULL; // array
