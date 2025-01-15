@@ -1,0 +1,1 @@
+This project was developed as part of the Computer Programming course of the 1st year of the [Bachelor's in Electrical Engineering](https://www.isel.pt/en/curso/bsc-degree/electrical-engineering) from Lisbon Higher Institute of Engineering.
